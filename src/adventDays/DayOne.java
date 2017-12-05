@@ -28,4 +28,10 @@ public class DayOne {
         return result * 2;
     }
 
+    public static void main(String[] args) {
+        DayOne dayOne = new DayOne();
+        System.out.println("Day one Challenge 1: " + Integer.toString(dayOne.adventChallengeOne()));
+        System.out.println("Day one Challenge 2: " + Integer.toString(dayOne.adventChallengeTwo()));
+    }
+
 }

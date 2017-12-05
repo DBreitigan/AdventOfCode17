@@ -89,4 +89,10 @@ public class DayThree {
     private String generateLocation(int x, int y) {
         return "[" + x + "," + y + "]";
     }
+
+    public static void main(String[] args) {
+        DayThree dayThree = new DayThree();
+        System.out.println("Day three Challenge 1: " + dayThree.adventChallengeOne());
+        System.out.println("Day three Challenge 2: " + dayThree.adventChallengeTwo());
+    }
 }

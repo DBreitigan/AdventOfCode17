@@ -1,42 +1,14 @@
 package adventDays;
 
-import java.io.*;
-import java.util.StringTokenizer;
+import helpers.MappingHelper;
 
 //Day two of Advert of Coding
 //http://adventofcode.com/2017/day/2
 public class DayTwo {
     private static String inputLocation = "src/inputs/DayTwoInput";
 
-    private int[][] stringTo2DIntArray() {
-        int[][] inputArray = new int[16][16];
-        BufferedReader bufRdr = null;
-        try {
-            bufRdr = new BufferedReader(new FileReader(inputLocation));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        String line;
-        int row = 0, col = 0;
-        try {
-            while ((line = bufRdr.readLine()) != null) {
-                StringTokenizer st = new StringTokenizer(line, "\t");
-                while (st.hasMoreTokens()) {
-                    inputArray[row][col] = Integer.parseInt(st.nextToken());
-                    col++;
-                }
-                col = 0;
-                row++;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return inputArray;
-    }
-
     //Add all the differences of the minimum and maximum value of each row
-    public int adventChallengeOne() {
-        int[][] input = stringTo2DIntArray();
+    public int adventChallengeOne(int[][] input) {
         int total = 0;
         for (int i = 0; i < input.length; i++) {
             int min = Integer.MAX_VALUE;
@@ -52,8 +24,7 @@ public class DayTwo {
     }
 
     //find the two evenly divisible numbers in each row, divide them and add them all together
-    public int adventChallengeTwo() {
-        int[][] input = stringTo2DIntArray();
+    public int adventChallengeTwo(int[][] input) {
         int total = 0;
 
         for (int i = 0; i < input.length; i++) {
@@ -68,8 +39,12 @@ public class DayTwo {
     }
 
     public static void main(String[] args) {
+        MappingHelper mapper = new MappingHelper();
+
+        int[][] inputArray = mapper.stringTo2DIntArray(inputLocation, "\t");
+
         DayTwo dayTwo = new DayTwo();
-        System.out.println("Day two Challenge 1: " + dayTwo.adventChallengeOne());
-        System.out.println("Day two Challenge 2: " + dayTwo.adventChallengeTwo());
+        System.out.println("Day two Challenge 1: " + dayTwo.adventChallengeOne(inputArray));
+        System.out.println("Day two Challenge 2: " + dayTwo.adventChallengeTwo(inputArray));
     }
 }

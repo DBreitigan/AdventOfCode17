@@ -15,18 +15,17 @@ public class DayNine {
 
         boolean inGarbage = false;
         for (int i = 0; i < input.length(); i++) {
+            char currentChar = input.charAt(i);
             if (inGarbage) {
-                char currentChar = input.charAt(i);
                 if (currentChar == '!') i++;
                 else if (currentChar == '>') inGarbage = false;
             } else {
-                char currentChar = input.charAt(i);
                 if (currentChar == '{') {
                     totalGroups += depth;
                     depth++;
                 }
-                if (currentChar == '}') depth--;
-                if (currentChar == '<') inGarbage = true;
+                else if (currentChar == '}') depth--;
+                else if (currentChar == '<') inGarbage = true;
             }
         }
         return totalGroups;
@@ -37,16 +36,15 @@ public class DayNine {
 
         boolean inGarbage = false;
         for (int i = 0; i < input.length(); i++) {
+            char currentChar = input.charAt(i);
             if (inGarbage) {
-                char currentChar = input.charAt(i);
                 if (currentChar == '!') i++;
                 else if (currentChar == '>') inGarbage = false;
                 else totalGarbageCharacters++;
             } else {
-                if (input.charAt(i) == '<') inGarbage = true;
+                if (currentChar == '<') inGarbage = true;
             }
         }
-
         return totalGarbageCharacters;
     }
 

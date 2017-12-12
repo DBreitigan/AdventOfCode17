@@ -31,6 +31,29 @@ public class MappingHelper {
         return integerList;
     }
 
+    public List<String> stringToStringList(String fileLocation, String delimiter) {
+        List<String> stringList = new ArrayList<>();
+
+        BufferedReader bufRdr = null;
+        try {
+            bufRdr = new BufferedReader(new FileReader(fileLocation));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        String line;
+        try {
+            while ((line = bufRdr.readLine()) != null) {
+                StringTokenizer st = new StringTokenizer(line, delimiter);
+                while (st.hasMoreTokens()) {
+                    stringList.add(st.nextToken());
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringList;
+    }
+
     public int[][] stringTo2DIntArray(String fileLocation, String delimiter) {
         int[][] inputArray = new int[16][16];
         BufferedReader bufRdr = null;

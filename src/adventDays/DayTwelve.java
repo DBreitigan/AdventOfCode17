@@ -57,7 +57,6 @@ public class DayTwelve {
                         default:
                             String relation = st.nextToken().replace(",", "");
                             list.add(new Pipes(relation, mainString));
-                            list.add(new Pipes(mainString, relation));
                             break;
                     }
                     counter++;
@@ -78,6 +77,10 @@ public class DayTwelve {
                 counter++;
                 alreadyUsedPipes.add(pipe.getSecond());
                 counter += adventChallengeOne(pipes, alreadyUsedPipes, pipe.getSecond());
+            } else if (pipe.getFirst().equals(location) && !alreadyUsedPipes.contains(pipe.getFirst())) {
+                counter++;
+                alreadyUsedPipes.add(pipe.getFirst());
+                counter += adventChallengeOne(pipes, alreadyUsedPipes, pipe.getFirst());
             }
         }
 
@@ -90,7 +93,9 @@ public class DayTwelve {
         String location = pipes.get(0).getFirst();
         while (true) {
             groups++;
-            findGroup(pipes, alreadyFoundGroup, location);
+            List<Pipes> notAccessedPipes = new ArrayList<>();
+            pipes.stream().filter(pipe -> !alreadyFoundGroup.contains(pipe.getFirst()) && !alreadyFoundGroup.contains(pipe.getSecond())).forEach(notAccessedPipes::add);
+            findGroup(notAccessedPipes, alreadyFoundGroup, location);
 
             boolean allFound = true;
             for (Pipes pipe : pipes) {
@@ -108,10 +113,16 @@ public class DayTwelve {
 
     private List<String> findGroup(List<Pipes> pipes, List<String> alreadyFoundGroup, String location) {
         pipes.stream()
-                .filter(pipe -> pipe.getFirst().equals(location) && !alreadyFoundGroup.contains(pipe.getSecond()))
+                .filter(pipe -> pipe.getFirst().equals(location) && !alreadyFoundGroup.contains(pipe.getSecond()) || pipe.getSecond().equals(location) && !alreadyFoundGroup.contains(pipe.getFirst()))
                 .forEach(pipe -> {
-                    alreadyFoundGroup.add(pipe.getSecond());
-                    List<String> foundGroups = findGroup(pipes, alreadyFoundGroup, pipe.getSecond());
+                    List<String> foundGroups;
+                    if (pipe.getFirst().equals(location)) {
+                        alreadyFoundGroup.add(pipe.getSecond());
+                        foundGroups = findGroup(pipes, alreadyFoundGroup, pipe.getSecond());
+                    } else {
+                        alreadyFoundGroup.add(pipe.getFirst());
+                        foundGroups = findGroup(pipes, alreadyFoundGroup, pipe.getFirst());
+                    }
                     for (String group : foundGroups) {
                         if (!alreadyFoundGroup.contains(group)) alreadyFoundGroup.add(group);
                     }

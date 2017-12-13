@@ -15,13 +15,18 @@ public class DayTwelve {
         private String first;
         private String second;
 
-        Pipes(String first, String second){
+        Pipes(String first, String second) {
             this.first = first;
             this.second = second;
         }
 
-        public String getSecond() { return second; }
-        public String getFirst() { return first; }
+        public String getSecond() {
+            return second;
+        }
+
+        public String getFirst() {
+            return first;
+        }
     }
 
     private List<Pipes> MapStringToPipes(String inputLocation, String delimiter) {
@@ -58,7 +63,9 @@ public class DayTwelve {
                     counter++;
                 }
             }
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return list;
     }
@@ -100,16 +107,15 @@ public class DayTwelve {
     }
 
     private List<String> findGroup(List<Pipes> pipes, List<String> alreadyFoundGroup, String location) {
-        for (Pipes pipe : pipes) {
-            if (pipe.getFirst().equals(location) && !alreadyFoundGroup.contains(pipe.getSecond())) {
-                alreadyFoundGroup.add(pipe.getSecond());
-                List<String> foundGroups = findGroup(pipes, alreadyFoundGroup, pipe.getSecond());
-                for (String group : foundGroups) {
-                    if (!alreadyFoundGroup.contains(group)) alreadyFoundGroup.add(group);
-                }
-            }
-
-        }
+        pipes.stream()
+                .filter(pipe -> pipe.getFirst().equals(location) && !alreadyFoundGroup.contains(pipe.getSecond()))
+                .forEach(pipe -> {
+                    alreadyFoundGroup.add(pipe.getSecond());
+                    List<String> foundGroups = findGroup(pipes, alreadyFoundGroup, pipe.getSecond());
+                    for (String group : foundGroups) {
+                        if (!alreadyFoundGroup.contains(group)) alreadyFoundGroup.add(group);
+                    }
+                });
         return alreadyFoundGroup;
     }
 
